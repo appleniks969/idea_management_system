@@ -10,6 +10,7 @@ import IdeaSubmission from './pages/IdeaSubmission';
 import IdeaDetail from './pages/IdeaDetail';
 import ApprovalDashboard from './pages/ApprovalDashboard';
 import Login from './pages/Login';
+import ErrorBoundary from './components/common/ErrorBoundary';
 
 // Protected route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -38,22 +39,24 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route element={
-            <ProtectedRoute>
-              <Layout />
-            </ProtectedRoute>
-          }>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/submit" element={<IdeaSubmission />} />
-            <Route path="/ideas/:ideaId" element={<IdeaDetail />} />
-            <Route path="/approval" element={<ApprovalDashboard />} />
-          </Route>
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </Router>
+      <ErrorBoundary>
+        <Router>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route element={
+              <ProtectedRoute>
+                <Layout />
+              </ProtectedRoute>
+            }>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/submit" element={<IdeaSubmission />} />
+              <Route path="/ideas/:ideaId" element={<IdeaDetail />} />
+              <Route path="/approval" element={<ApprovalDashboard />} />
+            </Route>
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </Router>
+      </ErrorBoundary>
     </ThemeProvider>
   );
 }
